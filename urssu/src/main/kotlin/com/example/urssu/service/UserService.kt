@@ -48,7 +48,7 @@ class UserService{
         for(article in articles){
             articleService.deleteArticle(userEntity.toUserInfoDto(), article.articleId)
         }
-        // 위에서 이미 삭제된 코멘트에 또 접근하면..?
+
         val comments: List<CommentEntity?> = commentRepository.findAllByEmailAndPassword(userEntity.email, userEntity.password)
         for(comment in comments){
             commentRepository.delete(comment)

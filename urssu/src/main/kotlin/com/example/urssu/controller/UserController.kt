@@ -25,8 +25,6 @@ class UserController {
     @Autowired
     private lateinit var userService: UserService
 
-    @Autowired
-    private lateinit var userRepository: UserRepository
 
     @PostMapping("/join")
     fun join(@Valid @RequestBody joinReqUserDto: JoinReqUserDto, bindingResult: BindingResult): BaseResponse<JoinResUserDto>{

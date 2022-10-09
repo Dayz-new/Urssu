@@ -19,11 +19,4 @@ abstract class BaseTimeEntity {
     var updated_at: LocalDateTime? = null
         protected set
 
-    fun getCreatedAt(): LocalDateTime? {
-        return created_at
-    }
-
-    fun getUpdatedAt(): LocalDateTime? {
-        return updated_at
-    }
 }
