@@ -1,19 +1,32 @@
 package com.example.urssu.domain.entity
 
-import com.example.urssu.dto.CommentDto
+import com.example.urssu.dto.CommentResDto
+import javax.persistence.*
 
+@Table(name = "comment")
+@Entity
 data class CommentEntity (
-    val commentId: Int,
-    val content: String,
-    val articleId: Int,
-    val userId: Int
-){
-    fun toDto(commentEntity: CommentEntity): CommentDto {
-        return CommentDto(
-            commentEntity.commentId,
-            commentEntity.content,
-            commentEntity.articleId,
-            commentEntity.userId
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
+    var commentId: Int = 0,
+
+    var content: String = "",
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "article_id")
+    var articleEntity: ArticleEntity,
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    var userEntity: UserEntity
+) : BaseTimeEntity()
+{
+    fun toCommentResDto(): CommentResDto {
+        return CommentResDto(
+            commentId = commentId,
+            email = userEntity.email,
+            content = content
         )
     }
 }

@@ -1,19 +1,36 @@
 package com.example.urssu.domain.entity
 
-import com.example.urssu.dto.UserDto
+import com.example.urssu.dto.JoinResUserDto
+import com.example.urssu.dto.UserInfoDto
+import javax.persistence.*
 
+@Table(name = "user")
+@Entity
 data class UserEntity (
-    val userId: Int,
-    val email: String,
-    val password: String,
-    val userName: String
-){
-    fun toDto(userEntity: UserEntity): UserDto {
-        return UserDto(
-            userEntity.userId,
-            userEntity.email,
-            userEntity.password,
-            userEntity.userName
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    val userId: Int = 0,
+
+    val email: String= "",
+
+    val password: String = "",
+
+    val username: String = ""
+) : BaseTimeEntity()
+{
+    fun toJoinResUserDto(): JoinResUserDto {
+        return JoinResUserDto(
+            email = email,
+            username = username
         )
     }
+
+    fun toUserInfoDto(): UserInfoDto {
+        return UserInfoDto(
+            email = email,
+            password = password
+        )
+    }
+
 }
