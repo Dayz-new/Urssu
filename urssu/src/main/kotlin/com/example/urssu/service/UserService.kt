@@ -1,5 +1,8 @@
 package com.example.urssu.service
 
+import com.example.urssu.config.BaseException
+import com.example.urssu.config.BaseResponse
+import com.example.urssu.config.BaseResponseStatus
 import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.domain.entity.CommentEntity
 import com.example.urssu.domain.entity.UserEntity
@@ -25,11 +28,21 @@ class UserService{
     @Autowired lateinit var articleService: ArticleService
 
     fun signUp(joinReqUserDto: JoinReqUserDto): UserEntity {
+        if(userRepository.findByEmail(joinReqUserDto.email).isPresent){
+            val baseException = BaseException(BaseResponseStatus.USER_ALREADY_EXIST_USER)
+            throw baseException
+        }
+
         return userRepository.save(joinReqUserDto.toEntity())
     }
 
     fun deleteUser(userInfoDto: UserInfoDto){
-        val userEntity: UserEntity = userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password)
+        if(userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password).isEmpty) {
+            val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
+            throw baseException
+        }
+
+        val userEntity: UserEntity = userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password).get()
 
         val articles: List<ArticleEntity> = articleRepository.findAllByEmailAndPassword(userEntity.email, userEntity.password)
         for(article in articles){

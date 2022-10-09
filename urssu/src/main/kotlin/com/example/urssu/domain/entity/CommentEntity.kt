@@ -1,5 +1,6 @@
 package com.example.urssu.domain.entity
 
+import com.example.urssu.dto.CommentReqDto
 import com.example.urssu.dto.CommentResDto
 import javax.persistence.*
 
@@ -11,7 +12,8 @@ data class CommentEntity (
     @Column(name = "comment_id")
     var commentId: Int = 0,
 
-    var content: String = "",
+    @Column(nullable = false)
+    var content: String,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "article_id")
@@ -28,5 +30,11 @@ data class CommentEntity (
             email = userEntity.email,
             content = content
         )
+    }
+
+    fun updateEntity(commentReqDto: CommentReqDto, userEntity: UserEntity, articleEntity: ArticleEntity){
+        content = commentReqDto.content
+        this.userEntity = userEntity
+        this. articleEntity = articleEntity
     }
 }

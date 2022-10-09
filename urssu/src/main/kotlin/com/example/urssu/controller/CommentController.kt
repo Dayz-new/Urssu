@@ -5,10 +5,13 @@ import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
 import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.domain.entity.CommentEntity
+import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.dto.*
 import com.example.urssu.service.CommentService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/comment")
@@ -17,7 +20,11 @@ class CommentController {
     @Autowired private lateinit var commentService: CommentService
 
     @PostMapping("/post/{article_id}")
-    fun post(@RequestBody commentReqDto: CommentReqDto, @PathVariable("article_id") articleId: Int): BaseResponse<CommentResDto> {
+    fun post(@Valid @RequestBody commentReqDto: CommentReqDto, bindingResult: BindingResult, @PathVariable("article_id") articleId: Int): BaseResponse<CommentResDto> {
+        if(bindingResult.hasErrors()){
+            return BaseResponse(BaseResponseStatus.COMMENT_EMPTY_CONTENT)
+        }
+
         return try{
             val commentEntity: CommentEntity = commentService.postComment(commentReqDto, articleId)
             BaseResponse(commentEntity.toCommentResDto())
@@ -28,7 +35,11 @@ class CommentController {
     }
 
     @PatchMapping("/update/{article_id}/{comment_id}")
-    fun update(@RequestBody commentReqDto: CommentReqDto, @PathVariable("article_id") articleId: Int, @PathVariable("comment_id") commentId: Int): BaseResponse<CommentResDto> {
+    fun update(@Valid @RequestBody commentReqDto: CommentReqDto, bindingResult: BindingResult, @PathVariable("article_id") articleId: Int, @PathVariable("comment_id") commentId: Int): BaseResponse<CommentResDto> {
+        if(bindingResult.hasErrors()){
+            return BaseResponse(BaseResponseStatus.COMMENT_EMPTY_CONTENT)
+        }
+
         return try{
             val commentEntity: CommentEntity = commentService.updateComment(commentReqDto, articleId, commentId)
             BaseResponse(commentEntity.toCommentResDto())

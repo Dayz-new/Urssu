@@ -1,5 +1,6 @@
 package com.example.urssu.domain.entity
 
+import com.example.urssu.dto.ArticleReqDto
 import com.example.urssu.dto.ArticleResDto
 import javax.persistence.*
 
@@ -11,11 +12,11 @@ data class ArticleEntity (
     @Column(name = "article_id")
     var articleId: Int = 0,
 
-    var content: String = "",
+    var content: String,
 
-    var title: String = "",
+    var title: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     var userEntity: UserEntity
 
@@ -28,5 +29,11 @@ data class ArticleEntity (
             title = title,
             content = content
         )
+    }
+
+    fun updateEntity(articleReqDto: ArticleReqDto, userEntity: UserEntity){
+        title = articleReqDto.title
+        content = articleReqDto.content
+        this.userEntity = userEntity
     }
 }

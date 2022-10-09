@@ -2,7 +2,9 @@ package com.example.urssu.domain.entity
 
 import com.example.urssu.dto.JoinResUserDto
 import com.example.urssu.dto.UserInfoDto
+import org.jetbrains.annotations.NotNull
 import javax.persistence.*
+import javax.validation.constraints.NotBlank
 
 @Table(name = "user")
 @Entity
@@ -12,11 +14,11 @@ data class UserEntity (
     @Column(name = "user_id")
     val userId: Int = 0,
 
-    val email: String= "",
+    val email: String,
 
-    val password: String = "",
+    val password: String,
 
-    val username: String = ""
+    val username: String
 ) : BaseTimeEntity()
 {
     fun toJoinResUserDto(): JoinResUserDto {

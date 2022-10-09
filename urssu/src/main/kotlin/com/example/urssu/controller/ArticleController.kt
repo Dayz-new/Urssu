@@ -9,7 +9,10 @@ import com.example.urssu.dto.ArticleResDto
 import com.example.urssu.dto.UserInfoDto
 import com.example.urssu.service.ArticleService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.validation.BindingResult
+import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/article")
@@ -17,7 +20,10 @@ class ArticleController {
     @Autowired private lateinit var articleService: ArticleService
 
     @PostMapping("/post")
-    fun post(@RequestBody articleReqDto: ArticleReqDto): BaseResponse<ArticleResDto>{
+    fun post(@Valid @RequestBody articleReqDto: ArticleReqDto, bindingResult: BindingResult): BaseResponse<ArticleResDto>{
+        if(bindingResult.hasErrors()){
+            return BaseResponse(BaseResponseStatus.POST_EMPTY_TITLE_CONTENT)
+        }
         return try{
             val articleEntity: ArticleEntity = articleService.postArticle(articleReqDto)
             BaseResponse(articleEntity.toArticleResDto())
@@ -28,7 +34,10 @@ class ArticleController {
     }
 
     @PatchMapping("/update/{article_id}")
-    fun update(@RequestBody articleReqDto: ArticleReqDto, @PathVariable("article_id") articleId: Int): BaseResponse<ArticleResDto>{
+    fun update(@Valid @RequestBody articleReqDto: ArticleReqDto, bindingResult: BindingResult, @PathVariable("article_id") articleId: Int): BaseResponse<ArticleResDto>{
+        if(bindingResult.hasErrors()){
+            return BaseResponse(BaseResponseStatus.POST_EMPTY_TITLE_CONTENT)
+        }
         return try{
             val articleEntity: ArticleEntity = articleService.updateArticle(articleReqDto, articleId)
             BaseResponse(articleEntity.toArticleResDto())

@@ -1,10 +1,17 @@
 package com.example.urssu.dto
 
 import com.example.urssu.domain.entity.UserEntity
+import javax.validation.constraints.NotBlank
 
 data class JoinReqUserDto (
+
+    @field: NotBlank
     val email: String,
+
+    @field: NotBlank
     val password: String,
+
+    @field: NotBlank
     val username: String
 ){
     fun toEntity(): UserEntity {

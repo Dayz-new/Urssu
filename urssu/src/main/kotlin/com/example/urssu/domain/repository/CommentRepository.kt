@@ -15,4 +15,5 @@ interface CommentRepository : JpaRepository<CommentEntity, Int> {
     fun findAllByArticleId(@Param("articleId")articleId: Int): List<CommentEntity>
 
     fun delete(commentEntity: CommentEntity?)
+
 }
