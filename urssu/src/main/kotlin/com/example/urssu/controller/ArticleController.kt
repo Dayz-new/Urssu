@@ -1,5 +1,7 @@
 package com.example.urssu.controller
 
+import com.example.urssu.config.BaseException
+import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
 import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.dto.ArticleReqDto
@@ -15,20 +17,35 @@ class ArticleController {
     @Autowired private lateinit var articleService: ArticleService
 
     @PostMapping("/post")
-    fun post(@RequestBody articleReqDto: ArticleReqDto): ArticleResDto{
-        val articleEntity: ArticleEntity = articleService.postArticle(articleReqDto)
-        return articleEntity.toArticleResDto()
+    fun post(@RequestBody articleReqDto: ArticleReqDto): BaseResponse<ArticleResDto>{
+        return try{
+            val articleEntity: ArticleEntity = articleService.postArticle(articleReqDto)
+            BaseResponse(articleEntity.toArticleResDto())
+        } catch (baseException: BaseException){
+            BaseResponse(baseException.baseResponseStatus)
+        }
+
     }
 
     @PatchMapping("/update/{article_id}")
-    fun update(@RequestBody articleReqDto: ArticleReqDto, @PathVariable("article_id") articleId: Int): ArticleResDto{
-        val articleEntity: ArticleEntity = articleService.updateArticle(articleReqDto, articleId)
-        return articleEntity.toArticleResDto()
+    fun update(@RequestBody articleReqDto: ArticleReqDto, @PathVariable("article_id") articleId: Int): BaseResponse<ArticleResDto>{
+        return try{
+            val articleEntity: ArticleEntity = articleService.updateArticle(articleReqDto, articleId)
+            BaseResponse(articleEntity.toArticleResDto())
+        } catch (baseException: BaseException){
+            BaseResponse(baseException.baseResponseStatus)
+        }
+
     }
 
     @DeleteMapping("/delete/{article_id}")
-    fun delete(@RequestBody userInfoDto: UserInfoDto, @PathVariable("article_id") articleId: Int): Int{
-        articleService.deleteArticle(userInfoDto, articleId)
-        return BaseResponseStatus.SUCCESS.code
+    fun delete(@RequestBody userInfoDto: UserInfoDto, @PathVariable("article_id") articleId: Int): BaseResponse<Int>{
+        return try{
+            articleService.deleteArticle(userInfoDto, articleId)
+            BaseResponse(BaseResponseStatus.SUCCESS.code)
+        } catch (baseException: BaseException){
+            BaseResponse(baseException.baseResponseStatus)
+        }
+
     }
 }

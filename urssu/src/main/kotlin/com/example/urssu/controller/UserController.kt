@@ -1,5 +1,7 @@
 package com.example.urssu.controller
 
+import com.example.urssu.config.BaseException
+import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
 import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.dto.JoinReqUserDto
@@ -21,15 +23,24 @@ class UserController {
     private lateinit var userService: UserService
 
     @PostMapping("/join")
-    fun join(@RequestBody joinReqUserDto: JoinReqUserDto): JoinResUserDto{
-        val userEntity: UserEntity = userService.signUp(joinReqUserDto)
-        return userEntity.toJoinResUserDto()
+    fun join(@RequestBody joinReqUserDto: JoinReqUserDto): BaseResponse<JoinResUserDto>{
+        return try{
+            val userEntity: UserEntity = userService.signUp(joinReqUserDto)
+            BaseResponse(userEntity.toJoinResUserDto())
+        } catch (baseException: BaseException){
+            BaseResponse(baseException.baseResponseStatus)
+        }
+
     }
 
     @DeleteMapping("/delete")
-    fun delete(@RequestBody userInfoDto: UserInfoDto): Int {
-        userService.deleteUser(userInfoDto)
-        return BaseResponseStatus.SUCCESS.code
+    fun delete(@RequestBody userInfoDto: UserInfoDto): BaseResponse<Int> {
+        return try{
+            userService.deleteUser(userInfoDto)
+            BaseResponse(BaseResponseStatus.SUCCESS.code)
+        } catch (baseException: BaseException){
+            BaseResponse(baseException.baseResponseStatus)
+        }
     }
 
 }
