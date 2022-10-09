@@ -12,10 +12,12 @@ import javax.persistence.MappedSuperclass
 abstract class BaseTimeEntity {
 
     @CreatedDate
-    private val created_at: LocalDateTime? = null
+    var created_at: LocalDateTime? = null
+        protected set
 
     @LastModifiedDate
-    private val updated_at: LocalDateTime? = null
+    var updated_at: LocalDateTime? = null
+        protected set
 
     fun getCreatedAt(): LocalDateTime? {
         return created_at
