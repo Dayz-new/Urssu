@@ -15,6 +15,7 @@ class JwtAuthenticationFilter(
 ) : BasicAuthenticationFilter(authenticationManager) {
     private var jwtTokenProvider = jwtTokenProvider
 
+    // TODO : 만료된 토큰으로 접근하는 경우 처리
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val bearer = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (bearer == null || !bearer.startsWith("Bearer ")) {
