@@ -2,6 +2,7 @@ package com.example.urssu.dto.user
 
 import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.domain.entity.UserRole
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.validation.constraints.NotBlank
 
 data class JoinReqUserDto (
@@ -10,10 +11,13 @@ data class JoinReqUserDto (
     val email: String,
 
     @field: NotBlank
-    val password: String,
+    var password: String,
 
     @field: NotBlank
     val username: String,
+
+    @JsonIgnore
+    val refreshToken: String,
 
     val role: UserRole
 ){
@@ -22,6 +26,7 @@ data class JoinReqUserDto (
             email = email,
             password = password,
             username = username,
+            refreshToken = "",
             role = UserRole.ROLE_USER
         )
     }

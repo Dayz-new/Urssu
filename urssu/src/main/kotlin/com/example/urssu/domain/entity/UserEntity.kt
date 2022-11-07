@@ -18,6 +18,8 @@ data class UserEntity (
 
     val username: String,
 
+    var refreshToken: String?,
+
     val role: UserRole
 
 ) : BaseTimeEntity()
@@ -25,7 +27,16 @@ data class UserEntity (
     fun toJoinResUserDto(): JoinResUserDto {
         return JoinResUserDto(
             email = email,
-            username = username
+            username = username,
+            role = role
+        )
+    }
+
+    fun toLoginResUserDto(): JoinResUserDto {
+        return JoinResUserDto(
+            email = email,
+            username = username,
+            role = role
         )
     }
 

@@ -3,6 +3,7 @@ package com.example.urssu.controller
 import com.example.urssu.config.BaseException
 import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
+import com.example.urssu.config.user.JwtTokenProvider
 import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.dto.user.*
 import com.example.urssu.service.UserService
@@ -40,7 +41,7 @@ class UserController {
     @PostMapping("/login")
     fun login(@RequestBody loginReqUserDto: LoginReqUserDto): BaseResponse<LoginResUserDto>{
         return try{
-            val loginResUserDto: LoginResUserDto = userService.login(LoginReqUserDto)
+            val loginResUserDto: LoginResUserDto = userService.login(loginReqUserDto)
             BaseResponse(loginResUserDto)
         } catch (baseException: BaseException){
             BaseResponse(baseException.baseResponseStatus)
