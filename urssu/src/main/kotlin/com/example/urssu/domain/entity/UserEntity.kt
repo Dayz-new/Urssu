@@ -1,10 +1,8 @@
 package com.example.urssu.domain.entity
 
-import com.example.urssu.dto.JoinResUserDto
-import com.example.urssu.dto.UserInfoDto
-import org.jetbrains.annotations.NotNull
+import com.example.urssu.dto.user.JoinResUserDto
+import com.example.urssu.dto.user.UserInfoDto
 import javax.persistence.*
-import javax.validation.constraints.NotBlank
 
 @Table(name = "user")
 @Entity
@@ -18,13 +16,28 @@ data class UserEntity (
 
     val password: String,
 
-    val username: String
+    val username: String,
+
+    var refreshToken: String?,
+
+    @Enumerated(value = EnumType.STRING) // Enum 값의 index가 아니라 값 자체를 저장하기 위한 어노테이션
+    val role: UserRole
+
 ) : BaseTimeEntity()
 {
     fun toJoinResUserDto(): JoinResUserDto {
         return JoinResUserDto(
             email = email,
-            username = username
+            username = username,
+            role = role
+        )
+    }
+
+    fun toLoginResUserDto(): JoinResUserDto {
+        return JoinResUserDto(
+            email = email,
+            username = username,
+            role = role
         )
     }
 

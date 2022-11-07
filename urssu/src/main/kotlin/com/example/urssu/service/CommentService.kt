@@ -1,7 +1,6 @@
 package com.example.urssu.service
 
 import com.example.urssu.config.BaseException
-import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
 import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.domain.entity.CommentEntity
@@ -9,8 +8,8 @@ import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.domain.repository.CommentRepository
 import com.example.urssu.domain.repository.UserRepository
-import com.example.urssu.dto.CommentReqDto
-import com.example.urssu.dto.UserInfoDto
+import com.example.urssu.dto.comment.CommentReqDto
+import com.example.urssu.dto.user.UserInfoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,7 +25,7 @@ class CommentService {
     @Autowired lateinit var commentRepository: CommentRepository
 
     fun postComment(commentReqDto: CommentReqDto, articleId: Int): CommentEntity {
-        if(userRepository.findByEmailAndPassword(commentReqDto.email, commentReqDto.password).isEmpty) {
+        if(userRepository.findByEmail(commentReqDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
@@ -42,13 +41,13 @@ class CommentService {
     }
 
     fun updateComment(commentReqDto: CommentReqDto, articleId: Int, commentId: Int): CommentEntity{
-        if(userRepository.findByEmailAndPassword(commentReqDto.email, commentReqDto.password).isEmpty) {
+        if(userRepository.findByEmail(commentReqDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
         var commentEntity: CommentEntity =  commentRepository.findById(commentId).get()
-        val userEntity: UserEntity = userRepository.findByEmailAndPassword(commentReqDto.email, commentReqDto.password).get()
+        val userEntity: UserEntity = userRepository.findByEmail(commentReqDto.email).get()
         val articleEntity: ArticleEntity = articleRepository.findById(articleId).get()
 
         commentEntity.updateEntity(commentReqDto, userEntity, articleEntity)
@@ -56,7 +55,7 @@ class CommentService {
     }
 
     fun deleteComment(userInfoDto: UserInfoDto, articleId: Int, commentId: Int){
-        if(userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password).isEmpty) {
+        if(userRepository.findByEmail(userInfoDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }

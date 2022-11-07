@@ -1,6 +1,6 @@
 package com.example.urssu.service
 
-import com.example.urssu.dto.ArticleReqDto
+import com.example.urssu.dto.article.ArticleReqDto
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension

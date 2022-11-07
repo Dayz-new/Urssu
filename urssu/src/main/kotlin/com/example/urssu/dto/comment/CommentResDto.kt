@@ -1,4 +1,4 @@
-package com.example.urssu.dto
+package com.example.urssu.dto.comment
 
 data class CommentResDto(
     val commentId: Int,

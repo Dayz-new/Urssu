@@ -8,9 +8,8 @@ import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.domain.repository.CommentRepository
 import com.example.urssu.domain.repository.UserRepository
-import com.example.urssu.dto.ArticleReqDto
-import com.example.urssu.dto.UserInfoDto
-import org.jetbrains.annotations.NotNull
+import com.example.urssu.dto.article.ArticleReqDto
+import com.example.urssu.dto.user.UserInfoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,29 +26,29 @@ class ArticleService {
 
 
     fun postArticle(articleReqDto: ArticleReqDto): ArticleEntity{
-        if(userRepository.findByEmailAndPassword(articleReqDto.email, articleReqDto.password).isEmpty) {
+        if(userRepository.findByEmail(articleReqDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
-        val userEntity: UserEntity = userRepository.findByEmailAndPassword(articleReqDto.email, articleReqDto.password).get()
+        val userEntity: UserEntity = userRepository.findByEmail(articleReqDto.email).get()
         return articleRepository.save(articleReqDto.toEntity(userEntity))
     }
 
     fun updateArticle(articleReqDto: ArticleReqDto, articleId: Int): ArticleEntity{
-        if(userRepository.findByEmailAndPassword(articleReqDto.email, articleReqDto.password).isEmpty) {
+        if(userRepository.findByEmail(articleReqDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
         var articleEntity: ArticleEntity =  articleRepository.findById(articleId).get()
-        val userEntity: UserEntity = userRepository.findByEmailAndPassword(articleReqDto.email, articleReqDto.password).get()
+        val userEntity: UserEntity = userRepository.findByEmail(articleReqDto.email).get()
         articleEntity.updateEntity(articleReqDto,userEntity)
         return articleRepository.save(articleEntity)
     }
 
     fun deleteArticle(userInfoDto: UserInfoDto, articleId: Int){
-        if(userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password).isEmpty) {
+        if(userRepository.findByEmail(userInfoDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }

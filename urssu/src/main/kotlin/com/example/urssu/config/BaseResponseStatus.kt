@@ -17,7 +17,10 @@ enum class BaseResponseStatus(
     POST_NOT_EXIST_POST(false, 404, "존재하지 않는 게시글입니다."),
 
     // 댓글 관련 에러
-    COMMENT_EMPTY_CONTENT(false, 400, "댓글의 내용에 빈 값이 들어갈 수 없습니다.")
+    COMMENT_EMPTY_CONTENT(false, 400, "댓글의 내용에 빈 값이 들어갈 수 없습니다."),
+
+    //로그인 관련 에러
+    FAILED_TO_LOGIN(false, 400, "잘못된 로그인 요청입니다.")
 
 
 }
