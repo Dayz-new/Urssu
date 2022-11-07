@@ -2,6 +2,7 @@ package com.example.urssu.domain.entity
 
 import com.example.urssu.dto.JoinResUserDto
 import com.example.urssu.dto.UserInfoDto
+import org.springframework.lang.Nullable
 import javax.persistence.*
 
 @Table(name = "user")
@@ -17,8 +18,6 @@ data class UserEntity (
     val password: String,
 
     val username: String,
-
-    val refreshToken: String,
 
     val role: UserRole
 
