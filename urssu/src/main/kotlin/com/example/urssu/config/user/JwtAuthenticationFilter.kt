@@ -17,7 +17,7 @@ class JwtAuthenticationFilter(
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val bearer = request.getHeader(HttpHeaders.AUTHORIZATION)
-        if (bearer == null || !bearer.startsWith("Bearer ") || !jwtTokenProvider.validateToken(bearer)) {
+        if (bearer == null || !bearer.startsWith("Bearer ")) {
             chain.doFilter(request, response)
             return
         }

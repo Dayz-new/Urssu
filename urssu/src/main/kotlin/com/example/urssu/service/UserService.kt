@@ -73,12 +73,12 @@ class UserService{
 
 
     fun deleteUser(userInfoDto: UserInfoDto){
-        if(userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password).isEmpty) {
+        if(userRepository.findByEmail(userInfoDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
-        val userEntity: UserEntity = userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password).get()
+        val userEntity: UserEntity = userRepository.findByEmail(userInfoDto.email).get()
 
         val articles: List<ArticleEntity> = articleRepository.findAllByEmailAndPassword(userEntity.email, userEntity.password)
         for(article in articles){

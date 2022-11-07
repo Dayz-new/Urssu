@@ -25,7 +25,7 @@ class CommentService {
     @Autowired lateinit var commentRepository: CommentRepository
 
     fun postComment(commentReqDto: CommentReqDto, articleId: Int): CommentEntity {
-        if(userRepository.findByEmailAndPassword(commentReqDto.email, commentReqDto.password).isEmpty) {
+        if(userRepository.findByEmail(commentReqDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
@@ -41,13 +41,13 @@ class CommentService {
     }
 
     fun updateComment(commentReqDto: CommentReqDto, articleId: Int, commentId: Int): CommentEntity{
-        if(userRepository.findByEmailAndPassword(commentReqDto.email, commentReqDto.password).isEmpty) {
+        if(userRepository.findByEmail(commentReqDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
         var commentEntity: CommentEntity =  commentRepository.findById(commentId).get()
-        val userEntity: UserEntity = userRepository.findByEmailAndPassword(commentReqDto.email, commentReqDto.password).get()
+        val userEntity: UserEntity = userRepository.findByEmail(commentReqDto.email).get()
         val articleEntity: ArticleEntity = articleRepository.findById(articleId).get()
 
         commentEntity.updateEntity(commentReqDto, userEntity, articleEntity)
@@ -55,7 +55,7 @@ class CommentService {
     }
 
     fun deleteComment(userInfoDto: UserInfoDto, articleId: Int, commentId: Int){
-        if(userRepository.findByEmailAndPassword(userInfoDto.email, userInfoDto.password).isEmpty) {
+        if(userRepository.findByEmail(userInfoDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
