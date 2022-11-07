@@ -16,9 +16,6 @@ data class JoinReqUserDto (
     @field: NotBlank
     val username: String,
 
-    @JsonIgnore
-    val refreshToken: String,
-
     val role: UserRole
 ){
     fun toEntity(): UserEntity {

@@ -42,7 +42,7 @@ class SecurityConfig(): WebSecurityConfigurerAdapter(){
             .antMatchers("/user/join","/user/login").permitAll()
             .anyRequest().authenticated()
 
-        http.addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+        http.addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider, authenticationManager()), UsernamePasswordAuthenticationFilter::class.java)
     }
 
 }

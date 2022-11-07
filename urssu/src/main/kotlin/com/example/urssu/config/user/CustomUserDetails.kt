@@ -6,10 +6,8 @@ import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
 
 class CustomUserDetails(userEntity: UserEntity) : UserDetails {
-    //직접 정의한 User 클래스를 필도로 가지게 함.
     private val userEntity: UserEntity
 
-    //생성자를 통해 유지
     init {
         this.userEntity = userEntity
     }

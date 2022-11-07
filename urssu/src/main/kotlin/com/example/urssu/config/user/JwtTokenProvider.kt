@@ -39,9 +39,6 @@ class JwtTokenProvider {
         val now = Date()
         val claims: Claims = Jwts.claims()
             .setSubject(email)
-
-        //private claims
-        //claims.put("id", id); // 정보는 key - value 쌍으로 저장.
         claims.put("role", role)
         return Jwts.builder()
             .setClaims(claims) // 페이로드
@@ -51,19 +48,17 @@ class JwtTokenProvider {
             .compact()
     }
 
+    // Refresh Token 생성
     fun createRefreshToken(email: String?, role: UserRole?): String {
         val now = Date()
         val claims: Claims = Jwts.claims()
             .setSubject(email)
-
-        //private claims
-        //claims.put("id", id); // 정보는 key - value 쌍으로 저장.
         claims.put("role", role)
         return Jwts.builder()
-            .setClaims(claims) // 페이로드
-            .setIssuedAt(now) //발행시간
-            .setExpiration(Date(now.time + refreshTokenValidTime)) // 토큰 만료기한
-            .signWith(SignatureAlgorithm.HS256, secretKey) // 서명. 사용할 암호화 알고리즘과 signature 에 들어갈 secretKey 세팅
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(Date(now.time + refreshTokenValidTime))
+            .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact()
     }
 
@@ -73,17 +68,12 @@ class JwtTokenProvider {
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
-    // 토큰에서 회원 정보 추출
+    // 토큰에서 회원 정보를 뽑는다.
     fun getUserPk(token: String?): String {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject()
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-    fun resolveToken(request: HttpServletRequest): String {
-        return request.getHeader("X-AUTH-TOKEN")
-    }
-
-    // 토큰의 유효성 + 만료일자 확인  // -> 토큰이 expire되지 않았는지 True/False로 반환해줌.
+    // 토큰 검사
     fun validateToken(jwtToken: String?): Boolean {
         return try {
             val claims: Jws<Claims> = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken)

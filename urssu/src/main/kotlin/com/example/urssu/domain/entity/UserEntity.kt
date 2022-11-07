@@ -20,6 +20,7 @@ data class UserEntity (
 
     var refreshToken: String?,
 
+    @Enumerated(value = EnumType.STRING) // Enum 값의 index가 아니라 값 자체를 저장하기 위한 어노테이션
     val role: UserRole
 
 ) : BaseTimeEntity()
