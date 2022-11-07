@@ -1,24 +1,22 @@
-package com.example.urssu.dto
+package com.example.urssu.dto.comment
 
 import com.example.urssu.domain.entity.ArticleEntity
+import com.example.urssu.domain.entity.CommentEntity
 import com.example.urssu.domain.entity.UserEntity
 import javax.validation.constraints.NotBlank
 
-data class ArticleReqDto (
+data class CommentReqDto (
     val email: String,
 
     val password: String,
 
     @field: NotBlank
-    val title: String,
-
-    @field: NotBlank
     val content: String
 ){
-    fun toEntity(userEntity: UserEntity): ArticleEntity{
-        return ArticleEntity(
-            title = title,
+    fun toEntity(userEntity: UserEntity, articleEntity: ArticleEntity): CommentEntity {
+        return CommentEntity(
             content = content,
+            articleEntity = articleEntity,
             userEntity = userEntity
         )
     }

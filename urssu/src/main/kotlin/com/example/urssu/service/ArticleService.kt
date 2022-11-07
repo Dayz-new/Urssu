@@ -8,9 +8,8 @@ import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.domain.repository.CommentRepository
 import com.example.urssu.domain.repository.UserRepository
-import com.example.urssu.dto.ArticleReqDto
-import com.example.urssu.dto.UserInfoDto
-import org.jetbrains.annotations.NotNull
+import com.example.urssu.dto.article.ArticleReqDto
+import com.example.urssu.dto.user.UserInfoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

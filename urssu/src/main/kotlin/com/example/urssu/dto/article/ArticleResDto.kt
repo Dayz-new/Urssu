@@ -1,4 +1,4 @@
-package com.example.urssu.dto
+package com.example.urssu.dto.article
 
 data class ArticleResDto (
     val articleId: Int,

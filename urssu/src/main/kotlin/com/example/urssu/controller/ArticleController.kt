@@ -4,13 +4,12 @@ import com.example.urssu.config.BaseException
 import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
 import com.example.urssu.domain.entity.ArticleEntity
-import com.example.urssu.dto.ArticleReqDto
-import com.example.urssu.dto.ArticleResDto
-import com.example.urssu.dto.UserInfoDto
+import com.example.urssu.dto.article.ArticleReqDto
+import com.example.urssu.dto.article.ArticleResDto
+import com.example.urssu.dto.user.UserInfoDto
 import com.example.urssu.service.ArticleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.BindingResult
-import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 

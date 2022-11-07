@@ -1,4 +1,4 @@
-package com.example.urssu.dto
+package com.example.urssu.dto.user
 
 import com.example.urssu.domain.entity.UserRole
 

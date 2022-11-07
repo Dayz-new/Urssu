@@ -1,10 +1,9 @@
 package com.example.urssu.service
 
-import com.example.urssu.dto.JoinReqUserDto
+import com.example.urssu.dto.user.JoinReqUserDto
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest

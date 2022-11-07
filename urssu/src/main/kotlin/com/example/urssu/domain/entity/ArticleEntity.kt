@@ -1,7 +1,7 @@
 package com.example.urssu.domain.entity
 
-import com.example.urssu.dto.ArticleReqDto
-import com.example.urssu.dto.ArticleResDto
+import com.example.urssu.dto.article.ArticleReqDto
+import com.example.urssu.dto.article.ArticleResDto
 import javax.persistence.*
 
 @Table(name = "article")
@@ -22,7 +22,7 @@ data class ArticleEntity (
 
 ) : BaseTimeEntity()
 {
-    fun toArticleResDto(): ArticleResDto{
+    fun toArticleResDto(): ArticleResDto {
         return ArticleResDto(
             articleId = articleId,
             email = userEntity.email,

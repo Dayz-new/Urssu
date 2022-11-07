@@ -1,8 +1,7 @@
 package com.example.urssu.domain.entity
 
-import com.example.urssu.dto.JoinResUserDto
-import com.example.urssu.dto.UserInfoDto
-import org.springframework.lang.Nullable
+import com.example.urssu.dto.user.JoinResUserDto
+import com.example.urssu.dto.user.UserInfoDto
 import javax.persistence.*
 
 @Table(name = "user")

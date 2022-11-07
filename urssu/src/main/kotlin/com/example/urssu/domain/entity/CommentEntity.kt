@@ -1,7 +1,7 @@
 package com.example.urssu.domain.entity
 
-import com.example.urssu.dto.CommentReqDto
-import com.example.urssu.dto.CommentResDto
+import com.example.urssu.dto.comment.CommentReqDto
+import com.example.urssu.dto.comment.CommentResDto
 import javax.persistence.*
 
 @Table(name = "comment")

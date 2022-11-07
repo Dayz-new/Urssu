@@ -3,10 +3,10 @@ package com.example.urssu.controller
 import com.example.urssu.config.BaseException
 import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
-import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.domain.entity.CommentEntity
-import com.example.urssu.domain.repository.ArticleRepository
-import com.example.urssu.dto.*
+import com.example.urssu.dto.comment.CommentReqDto
+import com.example.urssu.dto.comment.CommentResDto
+import com.example.urssu.dto.user.UserInfoDto
 import com.example.urssu.service.CommentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.BindingResult
