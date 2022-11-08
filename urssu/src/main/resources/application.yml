@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/urssu_db
-    username: root
+    url: ${DB_URL}
+    username: ${DB_USER}
 
   jpa:
     defer-datasource-initialization: true
@@ -14,6 +14,6 @@ spring:
         format_sql: true
 
 jwt:
-  secret: bWUtaHllb25pYy1teS1wbGktbWUtaHllb25pYy1teS1wbGktbWUtaHllb25pYy1teS1wbGktbWUtaHllb25pYy1teS1wbGk=
+  secret: ${JWT_SECRET}
 
 
