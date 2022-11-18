@@ -8,7 +8,6 @@ import com.example.urssu.config.resolver.AuthInfo
 import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.dto.article.ArticleReqDto
 import com.example.urssu.dto.article.ArticleResDto
-import com.example.urssu.dto.user.UserInfoDto
 import com.example.urssu.service.ArticleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.BindingResult

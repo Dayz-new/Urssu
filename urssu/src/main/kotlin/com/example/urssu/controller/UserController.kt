@@ -51,9 +51,9 @@ class UserController {
     }
 
     @DeleteMapping("/delete")
-    fun delete(@RequestBody userInfoDto: UserInfoDto, @Auth authInfo: AuthInfo): BaseResponse<Int> {
+    fun delete(@Auth authInfo: AuthInfo): BaseResponse<Int> {
         return try {
-            userService.deleteUser(userInfoDto)
+            userService.deleteUser(authInfo)
             BaseResponse(BaseResponseStatus.SUCCESS.code)
         } catch (baseException: BaseException) {
             BaseResponse(baseException.baseResponseStatus)

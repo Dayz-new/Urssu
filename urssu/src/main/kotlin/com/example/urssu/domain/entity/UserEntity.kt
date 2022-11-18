@@ -1,7 +1,6 @@
 package com.example.urssu.domain.entity
 
 import com.example.urssu.dto.user.JoinResUserDto
-import com.example.urssu.dto.user.UserInfoDto
 import javax.persistence.*
 
 @Table(name = "user")
@@ -38,13 +37,6 @@ data class UserEntity (
             email = email,
             username = username,
             role = role
-        )
-    }
-
-    fun toUserInfoDto(): UserInfoDto {
-        return UserInfoDto(
-            email = email,
-            password = password
         )
     }
 

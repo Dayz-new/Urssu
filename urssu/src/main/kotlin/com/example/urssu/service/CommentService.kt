@@ -10,7 +10,6 @@ import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.domain.repository.CommentRepository
 import com.example.urssu.domain.repository.UserRepository
 import com.example.urssu.dto.comment.CommentReqDto
-import com.example.urssu.dto.user.UserInfoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,8 +24,8 @@ class CommentService {
 
     @Autowired lateinit var commentRepository: CommentRepository
 
-    fun postComment(commentReqDto: CommentReqDto, articleId: Int, authInfoDto: AuthInfo): CommentEntity {
-        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
+    fun postComment(commentReqDto: CommentReqDto, articleId: Int, authInfo: AuthInfo): CommentEntity {
+        if(userRepository.findByEmail(authInfo.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
@@ -36,7 +35,7 @@ class CommentService {
             throw baseException
         }
 
-        val userEntity: UserEntity = userRepository.findByEmail(authInfoDto.email).get()
+        val userEntity: UserEntity = userRepository.findByEmail(authInfo.email).get()
         val articleEntity: ArticleEntity = articleRepository.findById(articleId).get()
         return commentRepository.save(commentReqDto.toEntity(userEntity, articleEntity))
     }
@@ -55,13 +54,13 @@ class CommentService {
         return commentRepository.save(commentEntity)
     }
 
-    fun deleteComment(articleId: Int, commentId: Int, authInfoDto: AuthInfo){
-        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
+    fun deleteComment(articleId: Int, commentId: Int, authInfo: AuthInfo){
+        if(userRepository.findByEmail(authInfo.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
-        val comments: List<CommentEntity> = commentRepository.findAllByEmail(authInfoDto.email)
+        val comments: List<CommentEntity> = commentRepository.findAllByEmail(authInfo.email)
         for(comment in comments){
             if(comment.articleEntity.articleId == articleId && comment.commentId == commentId)
                 commentRepository.delete(comment)

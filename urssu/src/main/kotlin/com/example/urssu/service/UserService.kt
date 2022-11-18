@@ -2,6 +2,7 @@ package com.example.urssu.service
 
 import com.example.urssu.config.BaseException
 import com.example.urssu.config.BaseResponseStatus
+import com.example.urssu.config.resolver.AuthInfo
 import com.example.urssu.config.user.JwtTokenProvider
 import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.domain.entity.CommentEntity
@@ -13,7 +14,6 @@ import com.example.urssu.domain.repository.UserRepository
 import com.example.urssu.dto.user.JoinReqUserDto
 import com.example.urssu.dto.user.LoginReqUserDto
 import com.example.urssu.dto.user.LoginResUserDto
-import com.example.urssu.dto.user.UserInfoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -72,20 +72,20 @@ class UserService{
     }
 
 
-    fun deleteUser(userInfoDto: UserInfoDto){
-        if(userRepository.findByEmail(userInfoDto.email).isEmpty) {
+    fun deleteUser(authInfo: AuthInfo){
+        if(userRepository.findByEmail(authInfo.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
-        val userEntity: UserEntity = userRepository.findByEmail(userInfoDto.email).get()
+        val userEntity: UserEntity = userRepository.findByEmail(authInfo.email).get()
 
-        val articles: List<ArticleEntity> = articleRepository.findAllByEmailAndPassword(userEntity.email, userEntity.password)
+        val articles: List<ArticleEntity> = articleRepository.findAllByEmail(userEntity.email)
         for(article in articles){
-            articleService.deleteArticle(userEntity.toUserInfoDto(), article.articleId)
+            articleService.deleteArticle(authInfo, article.articleId)
         }
 
-        val comments: List<CommentEntity?> = commentRepository.findAllByEmailAndPassword(userEntity.email, userEntity.password)
+        val comments: List<CommentEntity?> = commentRepository.findAllByEmail(authInfo.email)
         for(comment in comments){
             commentRepository.delete(comment)
         }

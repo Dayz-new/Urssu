@@ -10,7 +10,6 @@ import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.domain.repository.CommentRepository
 import com.example.urssu.domain.repository.UserRepository
 import com.example.urssu.dto.article.ArticleReqDto
-import com.example.urssu.dto.user.UserInfoDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,34 +25,34 @@ class ArticleService {
     @Autowired lateinit var userRepository: UserRepository
 
 
-    fun postArticle(articleReqDto: ArticleReqDto, authInfoDto: AuthInfo): ArticleEntity{
-        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
+    fun postArticle(articleReqDto: ArticleReqDto, authInfo: AuthInfo): ArticleEntity{
+        if(userRepository.findByEmail(authInfo.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
-        val userEntity: UserEntity = userRepository.findByEmail(authInfoDto.email).get()
+        val userEntity: UserEntity = userRepository.findByEmail(authInfo.email).get()
         return articleRepository.save(articleReqDto.toEntity(userEntity))
     }
 
-    fun updateArticle(articleReqDto: ArticleReqDto, authInfoDto: AuthInfo, articleId: Int): ArticleEntity{
-        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
+    fun updateArticle(articleReqDto: ArticleReqDto, authInfo: AuthInfo, articleId: Int): ArticleEntity{
+        if(userRepository.findByEmail(authInfo.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
         var articleEntity: ArticleEntity =  articleRepository.findById(articleId).get()
-        val userEntity: UserEntity = userRepository.findByEmail(authInfoDto.email).get()
+        val userEntity: UserEntity = userRepository.findByEmail(authInfo.email).get()
         articleEntity.updateEntity(articleReqDto,userEntity)
         return articleRepository.save(articleEntity)
     }
 
-    fun deleteArticle(authInfoDto: AuthInfo, articleId: Int){
-        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
+    fun deleteArticle(authInfo: AuthInfo, articleId: Int){
+        if(userRepository.findByEmail(authInfo.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
-        val articles: List<ArticleEntity> = articleRepository.findAllByEmail(authInfoDto.email)
+        val articles: List<ArticleEntity> = articleRepository.findAllByEmail(authInfo.email)
         for(article in articles){
             if(article.articleId == articleId) {
                 val comments: List<CommentEntity> = commentRepository.findAllByArticleId(article.articleId)
