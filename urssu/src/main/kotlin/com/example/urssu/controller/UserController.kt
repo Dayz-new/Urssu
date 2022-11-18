@@ -3,6 +3,8 @@ package com.example.urssu.controller
 import com.example.urssu.config.BaseException
 import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
+import com.example.urssu.config.resolver.Auth
+import com.example.urssu.config.resolver.AuthInfo
 import com.example.urssu.config.user.JwtTokenProvider
 import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.dto.user.*
@@ -49,9 +51,9 @@ class UserController {
     }
 
     @DeleteMapping("/delete")
-    fun delete(@RequestBody userInfoDto: UserInfoDto): BaseResponse<Int> {
+    fun delete(@Auth authInfo: AuthInfo): BaseResponse<Int> {
         return try {
-            userService.deleteUser(userInfoDto)
+            userService.deleteUser(authInfo)
             BaseResponse(BaseResponseStatus.SUCCESS.code)
         } catch (baseException: BaseException) {
             BaseResponse(baseException.baseResponseStatus)

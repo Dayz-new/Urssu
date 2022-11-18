@@ -3,7 +3,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
     username: ${DB_USER}
-
   jpa:
     defer-datasource-initialization: true
     hibernate:
@@ -12,6 +11,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # swagger ㄸㅐㅁ
+
 
 jwt:
   secret: ${JWT_SECRET}

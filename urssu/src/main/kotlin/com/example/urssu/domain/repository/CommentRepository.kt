@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param
 
 interface CommentRepository : JpaRepository<CommentEntity, Int> {
 
-    @Query("select c from CommentEntity c join fetch c.userEntity u where u.email = :email and u.password = :password")
-    fun findAllByEmailAndPassword(@Param("email")email: String, @Param("password")password: String): List<CommentEntity>
+    @Query("select c from CommentEntity c join fetch c.userEntity u where u.email = :email")
+    fun findAllByEmail(@Param("email")email: String): List<CommentEntity>
 
     @Query("select c from CommentEntity c join fetch c.articleEntity a where a.articleId = :articleId")
     fun findAllByArticleId(@Param("articleId")articleId: Int): List<CommentEntity>

@@ -39,7 +39,7 @@ class SecurityConfig(): WebSecurityConfigurerAdapter(){
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http.authorizeRequests()
-            .antMatchers("/user/join","/user/login").permitAll()
+            .antMatchers("/user/join","/user/login","/v3/api-docs","/swagger*/**").permitAll()
             .anyRequest().authenticated()
 
         http.addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider, authenticationManager()), UsernamePasswordAuthenticationFilter::class.java)

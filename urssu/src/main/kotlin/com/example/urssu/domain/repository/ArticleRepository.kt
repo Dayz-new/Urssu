@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
 interface ArticleRepository : JpaRepository<ArticleEntity, Int> {
-    @Query("select a from ArticleEntity a join fetch a.userEntity u where u.email = :email and u.password = :password")
-    fun findAllByEmailAndPassword(@Param("email")email: String, @Param("password")password: String): List<ArticleEntity>
+    @Query("select a from ArticleEntity a join fetch a.userEntity u where u.email = :email")
+    fun findAllByEmail(@Param("email")email: String): List<ArticleEntity>
 }
