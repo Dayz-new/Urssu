@@ -6,10 +6,6 @@ import com.example.urssu.domain.entity.UserEntity
 import javax.validation.constraints.NotBlank
 
 data class CommentReqDto (
-    val email: String,
-
-    val password: String,
-
     @field: NotBlank
     val content: String
 ){

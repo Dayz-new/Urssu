@@ -49,9 +49,9 @@ class ArticleController {
     }
 
     @DeleteMapping("/delete/{article_id}")
-    fun delete(@RequestBody userInfoDto: UserInfoDto, @Auth authInfo: AuthInfo, @PathVariable("article_id") articleId: Int): BaseResponse<Int>{
+    fun delete(@Auth authInfo: AuthInfo, @PathVariable("article_id") articleId: Int): BaseResponse<Int>{
         return try{
-            articleService.deleteArticle(userInfoDto, articleId)
+            articleService.deleteArticle(authInfo, articleId)
             BaseResponse(BaseResponseStatus.SUCCESS.code)
         } catch (baseException: BaseException){
             BaseResponse(baseException.baseResponseStatus)

@@ -48,12 +48,12 @@ class ArticleService {
         return articleRepository.save(articleEntity)
     }
 
-    fun deleteArticle(userInfoDto: UserInfoDto, articleId: Int){
-        if(userRepository.findByEmail(userInfoDto.email).isEmpty) {
+    fun deleteArticle(authInfoDto: AuthInfo, articleId: Int){
+        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
-        val articles: List<ArticleEntity> = articleRepository.findAllByEmailAndPassword(userInfoDto.email, userInfoDto.password)
+        val articles: List<ArticleEntity> = articleRepository.findAllByEmail(authInfoDto.email)
         for(article in articles){
             if(article.articleId == articleId) {
                 val comments: List<CommentEntity> = commentRepository.findAllByArticleId(article.articleId)
