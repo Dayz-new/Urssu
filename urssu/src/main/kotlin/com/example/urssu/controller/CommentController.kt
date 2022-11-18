@@ -3,6 +3,8 @@ package com.example.urssu.controller
 import com.example.urssu.config.BaseException
 import com.example.urssu.config.BaseResponse
 import com.example.urssu.config.BaseResponseStatus
+import com.example.urssu.config.resolver.Auth
+import com.example.urssu.config.resolver.AuthInfo
 import com.example.urssu.domain.entity.CommentEntity
 import com.example.urssu.dto.comment.CommentReqDto
 import com.example.urssu.dto.comment.CommentResDto
@@ -20,7 +22,7 @@ class CommentController {
     @Autowired private lateinit var commentService: CommentService
 
     @PostMapping("/post/{article_id}")
-    fun post(@Valid @RequestBody commentReqDto: CommentReqDto, bindingResult: BindingResult, @PathVariable("article_id") articleId: Int): BaseResponse<CommentResDto> {
+    fun post(@Valid @RequestBody commentReqDto: CommentReqDto, @Auth authInfo: AuthInfo, bindingResult: BindingResult, @PathVariable("article_id") articleId: Int): BaseResponse<CommentResDto> {
         if(bindingResult.hasErrors()){
             return BaseResponse(BaseResponseStatus.COMMENT_EMPTY_CONTENT)
         }
@@ -35,7 +37,7 @@ class CommentController {
     }
 
     @PatchMapping("/update/{article_id}/{comment_id}")
-    fun update(@Valid @RequestBody commentReqDto: CommentReqDto, bindingResult: BindingResult, @PathVariable("article_id") articleId: Int, @PathVariable("comment_id") commentId: Int): BaseResponse<CommentResDto> {
+    fun update(@Valid @RequestBody commentReqDto: CommentReqDto, bindingResult: BindingResult, @PathVariable("article_id") articleId: Int, @PathVariable("comment_id") commentId: Int, @Auth authInfo: AuthInfo): BaseResponse<CommentResDto> {
         if(bindingResult.hasErrors()){
             return BaseResponse(BaseResponseStatus.COMMENT_EMPTY_CONTENT)
         }
@@ -50,7 +52,7 @@ class CommentController {
     }
 
     @DeleteMapping("/delete/{article_id}/{comment_id}")
-    fun delete(@RequestBody userInfoDto: UserInfoDto, @PathVariable("article_id") articleId: Int, @PathVariable("comment_id") commentId: Int): BaseResponse<Int>{
+    fun delete(@RequestBody userInfoDto: UserInfoDto, @PathVariable("article_id") articleId: Int, @PathVariable("comment_id") commentId: Int, @Auth authInfo: AuthInfo): BaseResponse<Int>{
         return try{
             commentService.deleteComment(userInfoDto, articleId, commentId)
             BaseResponse(BaseResponseStatus.SUCCESS.code)

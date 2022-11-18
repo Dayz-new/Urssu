@@ -1,4 +1,4 @@
-package com.example.urssu.config
+package com.example.urssu.config.swagger
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -24,6 +24,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation ("org.springframework.security:spring-security-jwt:1.1.1.RELEASE")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

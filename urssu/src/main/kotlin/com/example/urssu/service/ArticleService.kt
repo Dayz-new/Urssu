@@ -2,6 +2,7 @@ package com.example.urssu.service
 
 import com.example.urssu.config.BaseException
 import com.example.urssu.config.BaseResponseStatus
+import com.example.urssu.config.resolver.AuthInfo
 import com.example.urssu.domain.entity.ArticleEntity
 import com.example.urssu.domain.entity.CommentEntity
 import com.example.urssu.domain.entity.UserEntity
@@ -25,24 +26,24 @@ class ArticleService {
     @Autowired lateinit var userRepository: UserRepository
 
 
-    fun postArticle(articleReqDto: ArticleReqDto): ArticleEntity{
-        if(userRepository.findByEmail(articleReqDto.email).isEmpty) {
+    fun postArticle(articleReqDto: ArticleReqDto, authInfoDto: AuthInfo): ArticleEntity{
+        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
-        val userEntity: UserEntity = userRepository.findByEmail(articleReqDto.email).get()
+        val userEntity: UserEntity = userRepository.findByEmail(authInfoDto.email).get()
         return articleRepository.save(articleReqDto.toEntity(userEntity))
     }
 
-    fun updateArticle(articleReqDto: ArticleReqDto, articleId: Int): ArticleEntity{
-        if(userRepository.findByEmail(articleReqDto.email).isEmpty) {
+    fun updateArticle(articleReqDto: ArticleReqDto, authInfoDto: AuthInfo, articleId: Int): ArticleEntity{
+        if(userRepository.findByEmail(authInfoDto.email).isEmpty) {
             val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
             throw baseException
         }
 
         var articleEntity: ArticleEntity =  articleRepository.findById(articleId).get()
-        val userEntity: UserEntity = userRepository.findByEmail(articleReqDto.email).get()
+        val userEntity: UserEntity = userRepository.findByEmail(authInfoDto.email).get()
         articleEntity.updateEntity(articleReqDto,userEntity)
         return articleRepository.save(articleEntity)
     }
