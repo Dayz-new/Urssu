@@ -24,7 +24,7 @@ data class JoinReqUserDto (
             password = password,
             username = username,
             refreshToken = "",
-            role = UserRole.ROLE_USER
+            role = role
         )
     }
 }

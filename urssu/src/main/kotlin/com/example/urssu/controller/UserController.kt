@@ -62,7 +62,13 @@ class UserController {
     }
 
     @GetMapping("/show")
-    fun show(@Auth authInfo: AuthInfo, ): BaseResponse<>{
-
+    fun show(@Auth authInfo: AuthInfo, showReqUserDto: ShowReqUserDto): BaseResponse<List<UserInfoDto>>{
+        return try{
+            userService.checkAdmin(authInfo)
+            val users = userService.showUser(showReqUserDto)
+            BaseResponse(users)
+        } catch (baseException: BaseException){
+            BaseResponse(baseException.baseResponseStatus)
+        }
     }
 }

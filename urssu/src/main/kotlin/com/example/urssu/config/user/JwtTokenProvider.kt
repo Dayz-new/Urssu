@@ -39,7 +39,7 @@ class JwtTokenProvider {
         val now = Date()
         val claims: Claims = Jwts.claims()
             .setSubject(email)
-        claims.put("role", role)
+        claims["role"] = role
         return Jwts.builder()
             .setClaims(claims) // 페이로드
             .setIssuedAt(now) //발행시간
@@ -53,7 +53,7 @@ class JwtTokenProvider {
         val now = Date()
         val claims: Claims = Jwts.claims()
             .setSubject(email)
-        claims.put("role", role)
+        claims["role"] = role
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)

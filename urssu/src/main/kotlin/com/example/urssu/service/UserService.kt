@@ -10,14 +10,13 @@ import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.domain.entity.UserRole
 import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.domain.repository.CommentRepository
-import com.example.urssu.domain.repository.UserRepository
-import com.example.urssu.dto.user.JoinReqUserDto
-import com.example.urssu.dto.user.LoginReqUserDto
-import com.example.urssu.dto.user.LoginResUserDto
+import com.example.urssu.domain.repository.user.UserRepository
+import com.example.urssu.dto.user.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors
 
 
 @Transactional
@@ -93,4 +92,25 @@ class UserService{
         userRepository.delete(userEntity)
 
     }
+
+    fun showUser(showReqUserDto: ShowReqUserDto): List<UserInfoDto> {
+        var users: List<UserEntity> = userRepository.findALlByShowReqUserDto(showReqUserDto)
+
+        var userInfoDtoList: List<UserInfoDto> = users.stream()
+            .map(UserEntity::toUserInfoDto)
+            .collect(Collectors.toList())
+
+        return userInfoDtoList
+    }
+
+    fun checkAdmin(authInfo: AuthInfo) {
+        val userEntity = userRepository.findByEmail(authInfo.email).get()
+        if(userEntity.role == UserRole.ROLE_USER){
+            throw Exception()
+        } else{
+            return
+        }
+    }
+
+
 }
