@@ -13,10 +13,11 @@ spring:
         format_sql: true
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher # swagger ㄸㅐㅁ
+      matching-strategy: ant_path_matcher
 
 
 jwt:
   secret: ${JWT_SECRET}
 
+## JPQL when 사용해서 caseQuery 생성해서 구현하자. querydsl 강의 1부 42분 / orderBy(~.desc()) => 내림차순
 
