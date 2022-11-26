@@ -20,7 +20,7 @@ enum class BaseResponseStatus(
     COMMENT_EMPTY_CONTENT(false, 400, "댓글의 내용에 빈 값이 들어갈 수 없습니다."),
 
     //로그인 관련 에러
-    FAILED_TO_LOGIN(false, 400, "잘못된 로그인 요청입니다.")
+    FAILED_TO_LOGIN(false, 401, "잘못된 로그인 요청입니다.")
 
 
 }

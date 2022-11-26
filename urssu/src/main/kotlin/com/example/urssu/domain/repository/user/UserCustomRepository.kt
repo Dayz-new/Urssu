@@ -1,9 +1,9 @@
 package com.example.urssu.domain.repository.user
 
 import com.example.urssu.domain.entity.UserEntity
-import com.example.urssu.dto.user.ShowReqUserDto
 import org.springframework.data.repository.query.Param
+import java.time.LocalDateTime
 
 interface UserCustomRepository {
-    fun findALlByShowReqUserDto(@Param("ShowReqUserDto") showReqUserDto: ShowReqUserDto): List<UserEntity>
+    fun findALlByTime(createdAtStart: LocalDateTime?, createdAtEnd: LocalDateTime?, updatedAtStart: LocalDateTime?, updatedAtEnd: LocalDateTime?): MutableList<UserEntity>
 }

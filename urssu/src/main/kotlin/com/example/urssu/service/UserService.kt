@@ -12,10 +12,14 @@ import com.example.urssu.domain.repository.ArticleRepository
 import com.example.urssu.domain.repository.CommentRepository
 import com.example.urssu.domain.repository.user.UserRepository
 import com.example.urssu.dto.user.*
+import org.apache.catalina.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.stream.Collectors
 
 
@@ -93,8 +97,62 @@ class UserService{
 
     }
 
-    fun showUser(showReqUserDto: ShowReqUserDto): List<UserInfoDto> {
-        var users: List<UserEntity> = userRepository.findALlByShowReqUserDto(showReqUserDto)
+    fun showUser(username: String?, email: String?, createdAtStart: String?, createdAtEnd: String?, updatedAtStart: String?, updatedAtEnd: String?): List<UserInfoDto> {
+        var createdAtStartTemp: String? = createdAtStart
+        if(createdAtStart == null){
+            createdAtStartTemp = "0001-01-01T00:00:00"
+        }else{
+            createdAtStartTemp = createdAtStart + "T00:00:00"
+        }
+
+        var createdAtEndTemp: String? = createdAtEnd
+        if(createdAtEnd == null){
+            createdAtEndTemp = "9999-12-31T23:59:59"
+        }else{
+            createdAtEndTemp = createdAtEnd + "T23:59:59"
+        }
+
+        var updatedAtStartTemp: String? = updatedAtStart
+        if(updatedAtStart == null){
+            updatedAtStartTemp = "0001-01-01T00:00:00"
+        }else{
+            updatedAtStartTemp = updatedAtStart + "T00:00:00"
+        }
+
+        var updatedAtEndTemp: String? = updatedAtEnd
+        if(updatedAtEnd == null){
+            updatedAtEndTemp = "9999-12-31T23:59:59"
+        }else{
+            updatedAtEndTemp = updatedAtEnd + "T23:59:59"
+        }
+
+        var createdAtStartLDT: LocalDateTime = LocalDateTime.parse(createdAtStartTemp, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        var createdAtEndLDT: LocalDateTime = LocalDateTime.parse(createdAtEndTemp, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        var updatedAtStartLDT: LocalDateTime = LocalDateTime.parse(updatedAtStartTemp, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        var updatedAtEndLDT: LocalDateTime = LocalDateTime.parse(updatedAtEndTemp, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+        var users: MutableList<UserEntity> = mutableListOf()
+
+        var usersByTime: MutableList<UserEntity> = userRepository.findALlByTime(createdAtStartLDT,createdAtEndLDT,updatedAtStartLDT,updatedAtEndLDT)
+
+        users = usersByTime
+
+        if(users.isEmpty()){
+            val baseException = BaseException(BaseResponseStatus.USER_EMPTY_USER)
+            throw baseException
+        }
+
+        if(username != null){
+            var userByUsername = usersByTime.find { user -> user.username == username }
+            users.clear()
+            users.add(userByUsername!!)
+        }
+
+        if(email != null){
+            var userByEmail = usersByTime.find { user -> user.email == email }
+            users.clear()
+            users.add(userByEmail!!)
+        }
 
         var userInfoDtoList: List<UserInfoDto> = users.stream()
             .map(UserEntity::toUserInfoDto)

@@ -3,26 +3,34 @@ package com.example.urssu.domain.repository.user
 import com.example.urssu.domain.entity.QUserEntity.userEntity
 import com.example.urssu.domain.entity.UserEntity
 import com.example.urssu.domain.entity.UserRole
-import com.example.urssu.dto.user.ShowReqUserDto
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
-class UserCustomRepositoryImpl(): UserCustomRepository{
-
-    private lateinit var jpaQueryFactory: JPAQueryFactory
-
-    override fun findALlByShowReqUserDto(showReqUserDto: ShowReqUserDto): List<UserEntity> {
-        return jpaQueryFactory.select(userEntity)
-            .where(userEntity.role.eq(UserRole.ROLE_USER))
-            .where(userEntity.email.eq(showReqUserDto.email))
-            .where(userEntity.username.eq(showReqUserDto.username))
-            .where(userEntity.created_at.goe(showReqUserDto.createdAtStart))
-            .where(userEntity.created_at.loe(showReqUserDto.createdAtEnt))
-            .where(userEntity.updated_at.goe(showReqUserDto.updatedAtStart))
-            .where(userEntity.updated_at.loe(showReqUserDto.updatedAtEnd))
-            .fetch()
+class UserCustomRepositoryImpl(
+    private val jpaQueryFactory: JPAQueryFactory
+): UserCustomRepository{
+    override fun findALlByTime(createdAtStart: LocalDateTime?, createdAtEnd: LocalDateTime?, updatedAtStart: LocalDateTime?, updatedAtEnd: LocalDateTime?): MutableList<UserEntity> {
+        if(createdAtStart.toString() != "0001-01-01T00:00:00"
+            && createdAtEnd.toString() == "9999-12-31T23:59:59"){
+            return jpaQueryFactory.selectFrom(userEntity)
+                .where(userEntity.role.eq(UserRole.ROLE_USER))
+                .where(userEntity.created_at.goe(createdAtStart))
+                .orderBy(userEntity.userId.desc())
+                .fetch()
+        }else if (createdAtStart.toString() == "0001-01-01T00:00:00"
+            && createdAtEnd.toString() != "9999-12-31T23:59:59"){
+            return jpaQueryFactory.selectFrom(userEntity)
+                .where(userEntity.role.eq(UserRole.ROLE_USER))
+                .where(userEntity.created_at.loe(createdAtEnd))
+                .orderBy(userEntity.userId.desc())
+                .fetch()
+        }else{
+            return jpaQueryFactory.selectFrom(userEntity)
+                .where(userEntity.role.eq(UserRole.ROLE_USER))
+                .orderBy(userEntity.userId.desc())
+                .fetch()
+        }
     }
-
-
 }
