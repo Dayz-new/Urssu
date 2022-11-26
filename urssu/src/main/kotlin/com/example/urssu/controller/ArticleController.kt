@@ -55,6 +55,5 @@ class ArticleController {
         } catch (baseException: BaseException){
             BaseResponse(baseException.baseResponseStatus)
         }
-
     }
 }

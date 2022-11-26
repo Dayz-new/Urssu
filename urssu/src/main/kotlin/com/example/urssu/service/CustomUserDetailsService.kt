@@ -2,7 +2,7 @@ package com.example.urssu.service
 
 import com.example.urssu.config.user.CustomUserDetails
 import com.example.urssu.domain.entity.UserEntity
-import com.example.urssu.domain.repository.UserRepository
+import com.example.urssu.domain.repository.user.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

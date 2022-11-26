@@ -12,10 +12,13 @@ import com.example.urssu.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 import javax.validation.Valid
 
 @RestController
@@ -56,6 +59,24 @@ class UserController {
             userService.deleteUser(authInfo)
             BaseResponse(BaseResponseStatus.SUCCESS.code)
         } catch (baseException: BaseException) {
+            BaseResponse(baseException.baseResponseStatus)
+        }
+    }
+
+    @GetMapping("/show")
+    fun show(@Auth authInfo: AuthInfo,
+             @RequestParam(required = false) username: String?,
+             @RequestParam(required = false) email: String?,
+             @RequestParam(required = false) createdAtStart: String?,
+             @RequestParam(required = false) createdAtEnd: String?,
+             @RequestParam(required = false) updatedAtStart: String?,
+             @RequestParam(required = false) updatedAtEnd: String?
+    ): BaseResponse<List<UserInfoDto>>{
+        return try{
+            userService.checkAdmin(authInfo)
+            val users = userService.showUser(username, email, createdAtStart, createdAtEnd, updatedAtStart, updatedAtEnd)
+            BaseResponse(users)
+        } catch (baseException: BaseException){
             BaseResponse(baseException.baseResponseStatus)
         }
     }

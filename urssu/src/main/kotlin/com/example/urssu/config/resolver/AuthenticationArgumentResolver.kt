@@ -2,6 +2,7 @@ package com.example.urssu.config.resolver
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.context.annotation.Configuration
 import org.springframework.core.MethodParameter
 import org.springframework.security.jwt.Jwt
 import org.springframework.security.jwt.JwtHelper
@@ -12,7 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 
-@Component
+@Configuration
 class AuthenticationArgumentResolver : HandlerMethodArgumentResolver {
 
     var mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule())

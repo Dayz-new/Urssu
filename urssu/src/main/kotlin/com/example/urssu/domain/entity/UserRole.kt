@@ -1,6 +1,9 @@
 package com.example.urssu.domain.entity
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 enum class UserRole {
-    ROLE_USER,
-    ROLE_ADMIN
+    ROLE_ADMIN,
+
+    ROLE_USER
 }
